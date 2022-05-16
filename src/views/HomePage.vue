@@ -2,13 +2,11 @@
     <div>
         <h2>Popular movies</h2>
         <ul>
-        <router-link to="/moviedetail">
           <li v-for="movie of movies" :key="movie.id" @click="movie.showDetail = !movie.showDetail">
+            <router-link :to="{ name: 'MovieDetail', params: {id: movie.id}}">
             <img class="movie-img" v-bind:src="'https://image.tmdb.org/t/p/w500' + movie.poster_path "  v-bind:alt="movie.title">
-            <!-- <h3 v-show="movie.showDetail">{{ movie.title }}</h3>
-            <p v-show="movie.showDetail">{{ movie.overview }}</p> -->
+            </router-link>
           </li>
-        </router-link>
         </ul>
     </div>
 </template>
@@ -42,9 +40,10 @@ export default {
     loadData() {
       axios.get(BASE_URL + API_URL)
         .then(response => {
+          console.log(response.data)
           this.movies = response.data.results
           for (let i = 0; i < this.movies.length; i++) {
-            this.movies[i].showDetail.push(false)
+            this.movies[i].showDetail = false
           }
         })
         .catch(error => console.log(error))
