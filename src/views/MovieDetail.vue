@@ -1,35 +1,35 @@
 <template>
 <div>
-    <h2>This is a movie detail page</h2>
-    <p>The movie id is {{ $route.params.id }}</p>
-    <h3>movie name: {{ $route.params.overview }}</h3>
+    <h2>Movie name: {{ movie.title }}</h2>
+    <img v-bind:src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" v-bind:alt="movie.title">
+    <p>{{ movie.overview }}</p>
+
 </div>
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 
 export default {
     name: 'MovieDetail',
     data() {
         return {
-            movie:'',
-            id:'',
+            movie: '',
         }
     },
 
     created: function() {
-        this.id = this.$route.params.id
+        this.getMovieDetail()
     },
 
     methods: {
-        // getMovieDetail() {
-        //     axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.movie.id}?api_key=3e21d0634b298df121ea5353d494ab2b&language=en-US`)
-        //     .then(response => {
-        //         this.movie = response.data
-        //     })
-        //     .catch(error => console.log(error))
-        // }
+        getMovieDetail() {
+            axios.get(`https://api.themoviedb.org/3/movie/${this.$route.params.id}?api_key=3e21d0634b298df121ea5353d494ab2b&language=en-US`)
+            .then(response => {
+                this.movie = response.data
+            })
+            .catch(error => console.log(error))
+        }
     }
 }
 
